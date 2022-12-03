@@ -65,7 +65,7 @@ const game = new Game({
       //load the PNG of the world sprites to use
       this.load.image("overworld", "/myAssets/Overworldnight.png");
       //loading a tilesmap called tilesmap using the newestMap2 JSON
-      this.load.tilemapTiledJSON("tilesmap", "/myAssets/map.json");
+      this.load.tilemapTiledJSON("tilesmap", "/myAssets/newMap.json");
       //loading the character atlas using the JSON as a reference
       this.load.atlas(
         "character",
@@ -298,10 +298,9 @@ const game = new Game({
       pond.setCollision([284]);
       shrub.setCollision([
         645, 646, 647, 685, 686, 687, 563, 204, 205, 206, 450, 451, 490, 491,
-        152, 153, 192, 193, 1175, 406, 522, 523, 524, 561, 562, 563, 564, 601,
-        600, 602, 603, 604, 561, 601, 642, 641, 334, 335, 292, 293, 45, 46, 490,
-        491, 374, 375, 332, 333, 85, 86, 412, 413, 414, 207, 208, 209, 210, 211,
-        481,
+        152, 153, 192, 193, 1175, 406, 522, 523, 524, 561, 562, 564, 600, 602,
+        603, 604, 561, 601, 642, 641, 334, 335, 292, 293, 45, 46, 490, 491, 374,
+        375, 332, 333, 85, 86, 412, 413, 414, 207, 208, 209, 210, 211, 481,
       ]);
       //set the bounds of the camera to the size of the map
       this.cameras.main.setBounds(0, 0, 1440, 960);
