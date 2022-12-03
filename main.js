@@ -649,7 +649,6 @@ function hitZombie(player, zombie) {
 }
 
 function npcHitZombie(npc) {
-  console.log("hit");
   npc.setBounce(0);
   npcCollisions.forEach((collision) => {
     collision.active = false;
