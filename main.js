@@ -18,6 +18,7 @@ let gameOverPrinted;
 let resetGameText;
 let npcLastDirection;
 let numberOfZombies;
+let npcCollisions;
 //create an array of 30 so each zombie had their own index number
 let zombiesLastDirection;
 //pre determined zombie positions on the map
@@ -79,10 +80,12 @@ const game = new Game({
       );
     },
     create() {
+      npcCollisions = [];
       startingGame = false;
       gameOverPrinted = false;
       zombieKills = 0;
       attacking = false;
+      s;
       zombies = [];
       numberOfZombies = 100;
       zombiesLastDirection = new Array(numberOfZombies);
@@ -276,7 +279,8 @@ const game = new Game({
       //adding collision for the character and npc
       collisions.forEach((collision) => {
         this.physics.add.collider(collision, character);
-        this.physics.add.collider(collision, npc);
+        let collTemp = this.physics.add.collider(collision, npc);
+        npcCollisions.push(collTemp);
       });
       //this.physics.add.collider(npc, character);
       character.setSize(15, 22);
@@ -309,7 +313,14 @@ const game = new Game({
       //when each independent zombie hits the npc or character run the function
       zombies.forEach((zombie) => {
         this.physics.add.collider(character, zombie, hitZombie, null, this);
-        this.physics.add.collider(npc, zombie, npcHitZombie, null, this);
+        let temp = this.physics.add.collider(
+          npc,
+          zombie,
+          npcHitZombie,
+          null,
+          this
+        );
+        npcCollisions.push(temp);
       });
       zombieKillsText = this.add.text(
         this.cameras.main.scrollX + 580,
@@ -487,25 +498,23 @@ const game = new Game({
           }
         }
       });
-      //checks if the npc is dead by the bounce
-      if (npc.body.bounce.x === 1) {
-        let distanceBetweenNPCCharacter = Phaser.Math.Distance.BetweenPoints(
-          character,
-          npc
-        );
-        //if the npc gets lost teleport to character
-        if (distanceBetweenNPCCharacter > 200) {
-          npc.body.position.x = character.body.position.x;
-          npc.body.position.y = character.body.position.y;
-        }
-        //move to character if distance is greater than 25
-        if (distanceBetweenNPCCharacter > 25) {
-          this.physics.moveToObject(npc, character, 80);
-        } else if (distanceBetweenNPCCharacter > 23) {
-          //stay still if distance is greater than 23 - stops npc going into character
-          npc.setVelocity(0, 0);
-        }
+      let distanceBetweenNPCCharacter = Phaser.Math.Distance.BetweenPoints(
+        character,
+        npc
+      );
+      //if the npc gets lost teleport to character
+      if (distanceBetweenNPCCharacter > 200) {
+        npc.body.position.x = character.body.position.x;
+        npc.body.position.y = character.body.position.y;
       }
+      //move to character if distance is greater than 25
+      if (distanceBetweenNPCCharacter > 25) {
+        this.physics.moveToObject(npc, character, 80);
+      } else if (distanceBetweenNPCCharacter > 23) {
+        //stay still if distance is greater than 23 - stops npc going into character
+        npc.setVelocity(0, 0);
+      }
+
       //character attack
       if (spacebar.isDown && startingGame) {
         attacking = true;
@@ -563,42 +572,38 @@ const game = new Game({
             break;
         }
       }
-      if (npc.body.bounce.x === 1) {
-        if (
-          Math.pow(npc.body.velocity.x, 2) > Math.pow(npc.body.velocity.y, 2)
-        ) {
-          if (npc.body.velocity.x < 0) {
-            npc.anims.play("npcWalkLeft", true);
-            npcLastDirection = "left";
-          } else {
-            npc.anims.play("npcWalkRight", true);
-            npcLastDirection = "right";
-          }
-        } else if (
-          Math.pow(npc.body.velocity.x, 2) < Math.pow(npc.body.velocity.y, 2)
-        ) {
-          if (npc.body.velocity.y < 0) {
-            npc.anims.play("npcWalkUp", true);
-            npcLastDirection = "up";
-          } else {
-            npc.anims.play("npcWalkDown", true);
-            npcLastDirection = "down";
-          }
+      if (Math.pow(npc.body.velocity.x, 2) > Math.pow(npc.body.velocity.y, 2)) {
+        if (npc.body.velocity.x < 0) {
+          npc.anims.play("npcWalkLeft", true);
+          npcLastDirection = "left";
         } else {
-          switch (npcLastDirection) {
-            case "up":
-              npc.anims.play("npcWalkUp");
-              break;
-            case "down":
-              npc.anims.play("npcWalkDown");
-              break;
-            case "right":
-              npc.anims.play("npcWalkRight");
-              break;
-            case "left":
-              npc.anims.play("npcWalkLeft");
-              break;
-          }
+          npc.anims.play("npcWalkRight", true);
+          npcLastDirection = "right";
+        }
+      } else if (
+        Math.pow(npc.body.velocity.x, 2) < Math.pow(npc.body.velocity.y, 2)
+      ) {
+        if (npc.body.velocity.y < 0) {
+          npc.anims.play("npcWalkUp", true);
+          npcLastDirection = "up";
+        } else {
+          npc.anims.play("npcWalkDown", true);
+          npcLastDirection = "down";
+        }
+      } else {
+        switch (npcLastDirection) {
+          case "up":
+            npc.anims.play("npcWalkUp");
+            break;
+          case "down":
+            npc.anims.play("npcWalkDown");
+            break;
+          case "right":
+            npc.anims.play("npcWalkRight");
+            break;
+          case "left":
+            npc.anims.play("npcWalkLeft");
+            break;
         }
       }
     },
@@ -645,8 +650,11 @@ function hitZombie(player, zombie) {
 }
 
 function npcHitZombie(npc) {
+  console.log("hit");
   npc.setBounce(0);
-  npc.disableBody(true, false);
+  npcCollisions.forEach((collision) => {
+    collision.active = false;
+  });
   npc.setTintFill(0xffffff);
   npc.setAlpha(0.4);
 }
