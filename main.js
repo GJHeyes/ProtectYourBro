@@ -502,10 +502,10 @@ const game = new Game({
         npc
       );
       //if the npc gets lost teleport to character
-      if (distanceBetweenNPCCharacter > 200) {
-        npc.body.position.x = character.body.position.x;
-        npc.body.position.y = character.body.position.y;
-      }
+      // if (distanceBetweenNPCCharacter > 200) {
+      //   npc.body.position.x = character.body.position.x;
+      //   npc.body.position.y = character.body.position.y;
+      // }
       //move to character if distance is greater than 25
       if (distanceBetweenNPCCharacter > 25) {
         this.physics.moveToObject(npc, character, 80);
