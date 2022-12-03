@@ -293,7 +293,7 @@ const game = new Game({
         173, 174, 175, 176,
       ]);
       bridge.setCollision([286, 288]);
-      fence.setCollision([683, 684, 685, 483, 723, 762, 725, 761, 724]);
+      fence.setCollision([683, 684, 685, 723, 762, 725, 761, 724]);
       water.setCollision([284]);
       pond.setCollision([284]);
       shrub.setCollision([
