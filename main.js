@@ -85,7 +85,6 @@ const game = new Game({
       gameOverPrinted = false;
       zombieKills = 0;
       attacking = false;
-      s;
       zombies = [];
       numberOfZombies = 100;
       zombiesLastDirection = new Array(numberOfZombies);
