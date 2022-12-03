@@ -284,7 +284,7 @@
                  "name":"shrub",
                  "opacity":1,
                  "type":"tilelayer",
-                 "visible":false,
+                 "visible":true,
                  "width":90,
                  "x":0,
                  "y":0
