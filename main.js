@@ -192,33 +192,29 @@ const game = new Game({
           //creating the zombies sprite randomly between 0-3
           `zombie${Math.floor(Math.random() * zombiesPNG.length)}`
         );
-        let charPosition =
-          characterPositions[
-            Math.floor(Math.random() * characterPositions.length)
-          ];
-        npc = this.physics.add.sprite(
-          charPosition.x,
-          charPosition.y - 10,
-          "npc"
-        );
-        npc.setCollideWorldBounds(true);
-        npc.setScale(0.5);
-        npc.setBounce(1);
-        //creating the character
-
-        character = this.physics.add.sprite(
-          charPosition.x,
-          charPosition.y,
-          "character"
-        );
-        character.setCollideWorldBounds(true);
-        character.setScale(0.6);
-        //creating zombies with a random position and random sprite then pushing to an array
-
         zombie.setScale(0.5);
         //pusing to the zombie array so I can reference them
         zombies.push(zombie);
       }
+      let charPosition =
+        characterPositions[
+          Math.floor(Math.random() * characterPositions.length)
+        ];
+      npc = this.physics.add.sprite(charPosition.x, charPosition.y - 10, "npc");
+      npc.setCollideWorldBounds(true);
+      npc.setScale(0.5);
+      npc.setBounce(1);
+      //creating the character
+
+      character = this.physics.add.sprite(
+        charPosition.x,
+        charPosition.y,
+        "character"
+      );
+      character.setCollideWorldBounds(true);
+      character.setScale(0.6);
+      //creating zombies with a random position and random sprite then pushing to an array
+
       //assigning key input
       cursors = this.input.keyboard.createCursorKeys();
       spacebar = this.input.keyboard.addKey(
