@@ -58,25 +58,25 @@ const game = new Game({
       zombiesPNG.forEach((zombie) => {
         this.load.atlas(
           "zombie" + zombiesPNG.indexOf(zombie),
-          `public/myAssets/24x32/${zombie}.png`,
-          "public/myAssets/zombie.json"
+          `myAssets/24x32/${zombie}.png`,
+          "myAssets/zombie.json"
         );
       });
       //load the PNG of the world sprites to use
-      this.load.image("overworld", "public/myAssets/Overworldnight.png");
+      this.load.image("overworld", "myAssets/Overworldnight.png");
       //loading a tilesmap called tilesmap using the newestMap2 JSON
-      this.load.tilemapTiledJSON("tilesmap", "public/myAssets/newMap.json");
+      this.load.tilemapTiledJSON("tilesmap", "myAssets/newMap.json");
       //loading the character atlas using the JSON as a reference
       this.load.atlas(
         "character",
-        "public/myAssets/gfx/characterNight.png",
-        "public/myAssets/character.json"
+        "myAssets/gfx/characterNight.png",
+        "myAssets/character.json"
       );
       //loading the npc atlas using the JSON as a reference
       this.load.atlas(
         "npc",
-        "public/myAssets/npcNight.png",
-        "public/myAssets/characterNpc.json"
+        "myAssets/npcNight.png",
+        "myAssets/characterNpc.json"
       );
     },
     create() {
