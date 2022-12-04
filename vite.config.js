@@ -1,7 +1,7 @@
 import { defineConfig } from "vite";
 
 export default defineConfig({
-  base: "/ProtectYourBro/",
+  base: "https://github.com/GJHeyes/ProtectYourBro",
   build: {
     chunkSizeWarningLimit: 1600,
   },
